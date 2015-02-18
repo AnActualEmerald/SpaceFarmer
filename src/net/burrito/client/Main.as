@@ -36,7 +36,7 @@ package net.burrito.client
 		public static var mouse:BitmapData = new BitmapData(15, 15, true);
 		public var bitmap:Bitmap = new Bitmap(screen);
 		public static var rect:Rectangle = new Rectangle();
-		public static var me:Player;
+		public var me:Player;
 		public static var lev:Level;
 		public static var stageWidth:int;
 		public static var stageHeight:int;
@@ -186,7 +186,7 @@ package net.burrito.client
 				removeChild(BurritoUIManager.Gas.bar);
 			}
 			
-			feild.text = "Press Enter To Begin";
+			feild.text = "Press Space To Begin";
 			feild.autoSize = TextFieldAutoSize.CENTER;
 			feild.x = (stage.width / 2) - feild.width / 2;
 			feild.y = (stage.height / 2) - feild.height / 2;
@@ -194,7 +194,7 @@ package net.burrito.client
 			HighScoreF.textColor = 0xffffff;
 			addChild(feild);
 			
-			if (Input.isKeyDown(Key.ENTER)) {
+			if (Input.isKeyDown(Key.SPACE)) {
 				addChild(BurritoUIManager.Gas.bar);
 				addChild(pointField);
 				hasStarted = true;

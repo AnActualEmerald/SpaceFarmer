@@ -44,8 +44,6 @@ package net.burrito.entities.mobs
 			}
 		}
 		
-		private var hasFired:Boolean = false;
-		
 		override public function move():void {
 			if (Input.isKeyDown(Key.D)) {
 				this.point.x += this.speed;
@@ -56,23 +54,17 @@ package net.burrito.entities.mobs
 				
 			}
 			if (Input.isKeyDown(Key.S)) {
-				if(point.y + this.sprite.height < Main.stageHeight)
-					this.point.y += this.speed;
+				this.point.y += this.speed;
 				
 			}
 			if (Input.isKeyDown(Key.W)) {
-				if (point.y > 0)
-					this.point.y -= this.speed;
+				this.point.y -= this.speed;
 				
 			}
 			
-			if (Input.isKeyDown(Key.SPACE) && !hasFired) {
-				lev.addMob(new Bullet(this.point.x + sprite.width -  Bullet.width / 2, this.point.y + (sprite.height/2) + (Bullet.height / 2) - 3, lev));
-				hasFired = true;
+			if (Input.isKeyDown(Key.SPACE)) {
+				lev.addMob(new Bullet(this.point.x + 64, this.point.y, lev));
 			}
-			
-			if (!Input.isKeyDown(Key.SPACE) && hasFired)
-				hasFired = false;
 			
 			if (Input.isKeyDown(Key.SHIFT)) {
 				if(this.fuel >= 30){
