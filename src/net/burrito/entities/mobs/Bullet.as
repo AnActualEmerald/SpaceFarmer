@@ -1,6 +1,8 @@
 package net.burrito.entities.mobs 
 {
 	import flash.display.BitmapData;
+	import flash.text.engine.TypographicCase;
+	import net.burrito.client.Main;
 	import net.burrito.levels.Level;
 	/**
 	 * ...
@@ -9,9 +11,12 @@ package net.burrito.entities.mobs
 	public class Bullet extends Mob 
 	{
 		
+		public static var width:int = 16;
+		public static var height:int = 16;
+		
 		public function Bullet(x:int, y:int, lev:Level) 
 		{
-			super(x, y, new BitmapData(16, 16, false, 0xF2FF00));
+			super(x, y, new BitmapData(width, height, false, 0xF2FF00));
 			this.speed *= 2;
 		}
 		
@@ -29,10 +34,13 @@ package net.burrito.entities.mobs
 			for (var i:int = 0; i < lev.enemies.length; i++)
 			{
 				var m:Mob = lev.enemies[i];
-				if (m != this && m != lev.player && typeof(m) != "Bullet")
+				
+				if (m != this && m != Main.me && !(m is Bullet))
 					if (this.sprite.hitTest(this.point, 255, m.sprite, m.point, 255))
 					{
 						m.alive = false;
+						this.alive = false;
+						Main.points += 10;
 					}
 			}
 		}
