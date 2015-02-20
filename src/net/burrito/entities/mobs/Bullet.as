@@ -1,9 +1,11 @@
 package net.burrito.entities.mobs 
 {
 	import flash.display.BitmapData;
+	import flash.media.Sound;
 	import flash.text.engine.TypographicCase;
 	import net.burrito.client.Main;
 	import net.burrito.levels.Level;
+	import net.burrito.Utils.Assets;
 	/**
 	 * ...
 	 * @author ...
@@ -13,6 +15,8 @@ package net.burrito.entities.mobs
 		
 		public static var width:int = 16;
 		public static var height:int = 16;
+		private static var ded:Sound = Assets.DED;
+		
 		
 		public function Bullet(x:int, y:int, lev:Level) 
 		{
@@ -41,6 +45,7 @@ package net.burrito.entities.mobs
 						m.alive = false;
 						this.alive = false;
 						Main.points += 10;
+						ded.play();
 					}
 			}
 		}

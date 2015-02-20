@@ -2,6 +2,8 @@ package net.burrito.entities.mobs
 {
 	
 	import flash.display.BitmapData;
+	import flash.media.Sound;
+	import flash.media.SoundTransform;
 	import net.burrito.terrain.Terrain;
 	import net.burrito.Utils.*;
 	import net.burrito.client.*;
@@ -13,6 +15,8 @@ package net.burrito.entities.mobs
 	{
 		public var levSpeed:int = 4;
 		public var fuel:int = 625;
+		
+		private var shoot_sound:Sound = Assets.PEW;
 		
 		public function Player(x:int, y:int, sprite:BitmapData) 
 		{
@@ -67,6 +71,7 @@ package net.burrito.entities.mobs
 			}
 			
 			if (Input.isKeyDown(Key.SPACE) && !hasFired) {
+				shoot_sound.play();
 				lev.addMob(new Bullet(this.point.x + sprite.width -  Bullet.width / 2, this.point.y + (sprite.height/2) + (Bullet.height / 2) - 3, lev));
 				hasFired = true;
 			}

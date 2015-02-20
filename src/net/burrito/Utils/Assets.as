@@ -2,6 +2,8 @@ package net.burrito.Utils
 {
 	import flash.display.BitmapData;
 	import flash.display.Bitmap;
+	import flash.media.Sound;
+	import flash.net.URLRequest;
 	/**
 	 * ...
 	 * @author Burrito119
@@ -39,6 +41,14 @@ package net.burrito.Utils
 		[Embed(source = "/../assets/BG2.png")]
 		private static const BG2:Class;
 		public static const BG_LIGHT:BitmapData = Bitmap(new BG2).bitmapData;
+		
+		[Embed(source = "/../assets/shoot.mp3")]
+		private static const SHOOT_SOUND:Class;
+		public static const PEW:Sound = Sound(new SHOOT_SOUND);
+		
+		[Embed(source = "/../assets/ded.mp3")]
+		private static const DEAD_SOUND:Class;
+		public static const DED:Sound = Sound(new DEAD_SOUND);
 	}
 
 }
