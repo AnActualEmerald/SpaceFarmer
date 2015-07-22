@@ -49,6 +49,10 @@ package net.burrito.Utils
 		[Embed(source = "/../assets/ded.mp3")]
 		private static const DEAD_SOUND:Class;
 		public static const DED:Sound = Sound(new DEAD_SOUND);
+		
+		[Embed(source = "/../assets/bg_music.mp3")]
+		private static const BG_MUSIC:Class;
+		public static const BACKING:Sound = Sound(new BG_MUSIC);
 	}
 
 }

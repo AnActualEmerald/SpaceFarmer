@@ -13,14 +13,14 @@ package net.burrito.client
 	import flash.events.Event;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import flash.media.Sound;
 	import flash.text.*;
 	import flash.net.FileReference;
 	import net.burrito.client.GUI.GUI;
 	import net.burrito.entities.mobs.missile;
 	import net.burrito.entities.mobs.Mob;
 	import net.burrito.entities.mobs.Player;
-	import net.burrito.levels.EnemyGenerator;
-	import net.burrito.levels.Level;
+	import net.burrito.levels.*;
 	
 	import net.burrito.Utils.*;
 	
@@ -50,12 +50,13 @@ package net.burrito.client
 		private var hasStarted:Boolean = false;
 		private var paused:Boolean = false;
 		private var pausedIsDown:Boolean = false;
+		private var music:Sound = Assets.BACKING;
 		
 		public static var levels:Vector.<Level> = new Vector.<Level>;
 		
 		public function Main()
 		{
-			lev = Level.lev1;
+			lev = WaveLevel.testLev;
 			me = new Player(spawnX, spawnY, Assets.PLAYER_BIT);
 			
 			lev.player = me;
@@ -89,6 +90,14 @@ package net.burrito.client
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.displayState = StageDisplayState.NORMAL;
 			
+			music.addEventListener(Event.SOUND_COMPLETE, loopBGMusic);
+			music.play();
+			
+		}
+		
+		public function loopBGMusic(e:Event):void {
+			music.play();
+			music.addEventListener(Event.SOUND_COMPLETE, loopBGMusic);
 		}
 		
 		public function run(e:Event):void {
@@ -97,9 +106,9 @@ package net.burrito.client
 		}
 		
 		public function load():void {
-			levels.push(Level.lev1);
-			levels.push(Level.lev2);
-			levels.push(Level.lev3); 
+			levels.push(WaveLevel.lev1);
+			levels.push(WaveLevel.lev2);
+			levels.push(WaveLevel.lev3); 
 			pointRender();
 			buildGUI();
 		}
@@ -127,7 +136,7 @@ package net.burrito.client
 					removeChild(feild);
 			}
 			
-			if (lev.finalWave == 2) {
+			if (lev.done == 2) {
 				levelId++;
 				for (var i:int = 0; i < levels.length; i++){
 					if (levelId == levels[i].id) {
@@ -254,10 +263,10 @@ package net.burrito.client
 			addChild(BurritoUIManager.Gas.bar);
 			HighScoreF.textColor = 0x000000;
 			me.fuel = 625;
-			lev.timer = 0;
-			lev.waveNum = 0;
-			lev.finalWave = 0;
-			lev.load();
+			WaveLevel(lev).timer = 0;
+			WaveLevel(lev).waveNum = 0;
+			WaveLevel(lev).done = 0;
+			WaveLevel(lev).load();
 		}
 		
 		public function buildGUI():void {

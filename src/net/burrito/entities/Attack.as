@@ -1,12 +1,13 @@
 package net.burrito.entities 
 {
+	import net.burrito.levels.Level;
 	/**
 	 * ...
 	 * @author ...
 	 */
 	public interface Attack 
 	{
-		public function Execute():void
+		function Execute(e:Level):void;
 	}
 
 }

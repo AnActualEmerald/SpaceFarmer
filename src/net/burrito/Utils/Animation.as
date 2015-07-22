@@ -9,17 +9,21 @@ package net.burrito.Utils
 	 */
 	public class Animation 
 	{
-		var frames:Vector.<BitmapData>;
-		var currentFrame:int = 0;
+		private var frames:Vector.<BitmapData>;
+		private var currentFrame:int = 0;
+		private var looping:Boolean = false;
 		
-		public function Animation(frames:Vector.<BitmapData>) 
+		public function Animation(frames:Vector.<BitmapData>, looping:Boolean = false) 
 		{
 			this.frames = frames;
+			this.looping = looping;
 		}
 		
 		public function next():BitmapData {
-			if (currentFrame >= frames.length)
+			if (currentFrame >= frames.length && looping)
 				currentFrame = 0;
+			else if (currentFrame >= frames.length && !looping)
+				return null;
 			
 			var returnFrame:BitmapData = frames[currentFrame];
 			currentFrame++;

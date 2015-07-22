@@ -2,6 +2,7 @@ package net.burrito.entities.mobs
 {
 	import flash.display.BitmapData;
 	import flash.media.Sound;
+	import flash.media.SoundChannel;
 	import flash.text.engine.TypographicCase;
 	import net.burrito.client.Main;
 	import net.burrito.levels.Level;
@@ -21,7 +22,7 @@ package net.burrito.entities.mobs
 		public function Bullet(x:int, y:int, lev:Level) 
 		{
 			super(x, y, new BitmapData(width, height, false, 0xF2FF00));
-			this.speed *= 2;
+			this.speed *= 2;			
 		}
 		
 		override public function move():void 

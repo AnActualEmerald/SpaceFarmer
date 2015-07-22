@@ -10,7 +10,7 @@ package net.burrito.entities.mobs
 	public class Boss extends Mob
 	{
 		var health:int;
-		var attacks:Array;
+		var attacks:Vector.<Attack>;
 		var idleAnim:Animation;
 		var deathAnim:Animation;
 		var attackTiming:int;
@@ -18,7 +18,7 @@ package net.burrito.entities.mobs
 		
 		public function Boss(hp:int, attacks:Vector.<Attack>, timing:int, x:int, y:int, idle:Animation, death:Animation) 
 		{
-			super(x, y, anim.next());
+			super(x, y, idle.next());
 			health = hp;
 			this.attacks = attacks;
 			idleAnim = idle;
@@ -29,15 +29,25 @@ package net.burrito.entities.mobs
 		private var numFrames:int = attackTiming;
 		override public function tick():void {
 			if (health <= 0){
-				for (var i:int = 0; i < deathAnim.Frames(); i++)
-					this.sprite = deathAnim.next();
-				alive = false;
+				var tmp:BitmapData = deathAnim.next();
+				if (tmp == null) {
+					alive = false;
+				}
+				else {
+					this.sprite = tmp;
+				}
+				
+			}else {
+				this.sprite = idleAnim.next();
 			}
 			
 			if (numFrames >= attackTiming)
 			{
-				attacks[currentAttack].Execute();
+				attacks[currentAttack].Execute(this.lev);
+				numFrames = 0;
 			}
+			
+			numFrames++;
 		}		
 	}
 
