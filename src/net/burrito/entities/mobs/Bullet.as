@@ -17,7 +17,7 @@ package net.burrito.entities.mobs
 		public static var width:int = 16;
 		public static var height:int = 16;
 		private static var ded:Sound = Assets.DED;
-		
+		protected var shouldDamageBoss:Boolean = true;
 		
 		public function Bullet(x:int, y:int, lev:Level) 
 		{
@@ -43,10 +43,19 @@ package net.burrito.entities.mobs
 				if (m != this && m != Main.me && !(m is Bullet))
 					if (this.sprite.hitTest(this.point, 255, m.sprite, m.point, 255))
 					{
-						m.alive = false;
-						this.alive = false;
-						Main.points += 10;
-						ded.play();
+						if(!m.isBoss){
+							m.alive = false;
+							this.alive = false;
+							Main.points += 10;
+							if(!Main.no_sounds)
+							ded.play();
+						}else if(shouldDamageBoss){
+							Boss(m).Damage(10);
+							this.alive = false;
+							if(!Main.no_sounds)
+							ded.play();
+							Main.points += 5;
+						}
 					}
 			}
 		}

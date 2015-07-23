@@ -2,6 +2,7 @@ package net.burrito.client
 {
 	import adobe.utils.ProductManager;
 	import flash.display.Bitmap;
+	import flash.display.DisplayObject;
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.display.BitmapData
@@ -11,9 +12,11 @@ package net.burrito.client
 	import flash.display.StageDisplayState;
 	import flash.events.KeyboardEvent
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.media.Sound;
+	import flash.media.SoundChannel;
 	import flash.text.*;
 	import flash.net.FileReference;
 	import net.burrito.client.GUI.GUI;
@@ -21,6 +24,7 @@ package net.burrito.client
 	import net.burrito.entities.mobs.Mob;
 	import net.burrito.entities.mobs.Player;
 	import net.burrito.levels.*;
+	import flash.display.SimpleButton;
 	
 	import net.burrito.Utils.*;
 	
@@ -42,6 +46,8 @@ package net.burrito.client
 		public static var stageHeight:int;
 		public static var points:int = 0;
 		public static var high:int = 0;
+		public static var muted:Boolean = false;
+		public static var no_sounds:Boolean = false;
 		private var feild:TextField = new TextField();
 		private var pointField:TextField = new TextField();
 		private var HighScoreF:TextField = new TextField();
@@ -51,24 +57,32 @@ package net.burrito.client
 		private var paused:Boolean = false;
 		private var pausedIsDown:Boolean = false;
 		private var music:Sound = Assets.BACKING;
+		private var muteButton:SimpleButton;
+		private var chan:SoundChannel;
 		
 		public static var levels:Vector.<Level> = new Vector.<Level>;
 		
 		public function Main()
 		{
-			lev = WaveLevel.testLev;
+			lev = WaveLevel.lev1;
 			me = new Player(spawnX, spawnY, Assets.PLAYER_BIT);
 			
 			lev.player = me;
 			
 			load();
-	
+			
+			var down:Bitmap = new Bitmap(Assets.GRASS_TILE);
+			var over:Bitmap = new Bitmap(Assets.WATER_TILE);
+			var up:Bitmap = new Bitmap(Assets.GRASS_TILE);
+			var hit:Bitmap = new Bitmap(Assets.GRASS_TILE);
+			muteButton = new SimpleButton(up, over, down, hit);
+			
 			//Add game bitmap
 			addChild(bitmap);
 			addChild(pointField);
 			addChild(HighScoreF);
+			addChild(muteButton);
 			addChild(BurritoUIManager.Gas.bar);
-			
 			
 			stageHeight = stage.height;
 			stageWidth = stage.width;
@@ -91,12 +105,34 @@ package net.burrito.client
 			stage.displayState = StageDisplayState.NORMAL;
 			
 			music.addEventListener(Event.SOUND_COMPLETE, loopBGMusic);
-			music.play();
+			chan = music.play();
 			
+			muteButton.visible = true;
+			muteButton.x = 800 - 16;
+			muteButton.y = 600 - 16;
+			muteButton.addEventListener(MouseEvent.CLICK, mute);
 		}
 		
+		private function mute(e:Event):void {
+			if (!muted && !no_sounds) {
+				chan.stop();
+				muted = true;
+			}else if (muted && !no_sounds) {
+				no_sounds = true;
+				muted = false;
+				chan = music.play();
+			}else if (!muted && no_sounds) {
+				muted = true;
+				chan.stop();
+			}
+			else {
+				chan = music.play();
+				muted = false;
+				no_sounds = false;
+			}
+		}
 		public function loopBGMusic(e:Event):void {
-			music.play();
+			chan = music.play();
 			music.addEventListener(Event.SOUND_COMPLETE, loopBGMusic);
 		}
 		
@@ -107,8 +143,10 @@ package net.burrito.client
 		
 		public function load():void {
 			levels.push(WaveLevel.lev1);
+			levels.push(WaveLevel.lev1Boss)
 			levels.push(WaveLevel.lev2);
-			levels.push(WaveLevel.lev3); 
+		//	levels.push(WaveLevel.lev3); 
+			lev.load();
 			pointRender();
 			buildGUI();
 		}
@@ -141,6 +179,7 @@ package net.burrito.client
 				for (var i:int = 0; i < levels.length; i++){
 					if (levelId == levels[i].id) {
 						lev = levels[i];
+						lev.load();
 					}
 				
 				}
@@ -263,10 +302,11 @@ package net.burrito.client
 			addChild(BurritoUIManager.Gas.bar);
 			HighScoreF.textColor = 0x000000;
 			me.fuel = 625;
-			WaveLevel(lev).timer = 0;
-			WaveLevel(lev).waveNum = 0;
-			WaveLevel(lev).done = 0;
-			WaveLevel(lev).load();
+			lev = WaveLevel.lev1;
+			levelId = 0;
+			lev.done = 0;
+			me.lev = lev;
+			lev.load();
 		}
 		
 		public function buildGUI():void {

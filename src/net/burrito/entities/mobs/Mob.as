@@ -14,6 +14,7 @@ package net.burrito.entities.mobs
 		public var dir:int = 0;
 		public var lev:Level;
 		public var alive:Boolean = true;
+		public var isBoss:Boolean = false;
 		
 		public function Mob(x:int, y:int, sprite:BitmapData) 
 		{

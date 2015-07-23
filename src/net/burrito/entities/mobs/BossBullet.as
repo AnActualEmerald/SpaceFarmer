@@ -1,5 +1,6 @@
 package net.burrito.entities.mobs 
 {
+	import flash.display.BitmapData;
 	import flash.geom.Point;
 	import net.burrito.levels.Level;
 	/**
@@ -16,21 +17,16 @@ package net.burrito.entities.mobs
 			super(spawn.x, spawn.y, lev);
 			spawnPoint = spawn;
 			targetPoint = target;
+			shouldDamageBoss = false;
+			this.sprite = new BitmapData(width, height, false, 0xFF2424);
 		}
 		
 		override public function move():void 
 		{
-			if (this.spawnPoint.x < this.targetPoint.x)
-				this.point.x += speed;
-			else 
-				this.point.x -= speed;
-				
-			if (this.spawnPoint.y < this.targetPoint.y)
-				this.point.y += speed;
-			else
-				this.point.y -= speed;
-		}
-		
+			var rot:Number = Math.atan2(targetPoint.y - spawnPoint.y, targetPoint.x - spawnPoint.x);
+			point.x += Math.cos(rot) * speed;
+			point.y += Math.sin(rot) * speed;
+		}		
 	}
 
 }

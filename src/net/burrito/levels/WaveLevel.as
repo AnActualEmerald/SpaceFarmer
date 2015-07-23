@@ -7,10 +7,6 @@ package net.burrito.levels
 	import net.burrito.entities.Entity;
 	import net.burrito.entities.mobs.Mob;
 	import net.burrito.entities.mobs.Player;
-	import net.burrito.terrain.goalBasic;
-	import net.burrito.terrain.groundBasic;
-	import net.burrito.terrain.slopeBasic;
-	import net.burrito.terrain.Terrain;
 	import net.burrito.client.Main;
 	import net.burrito.Utils.Assets;
 	import net.burrito.Utils.LevelHelper;
@@ -21,10 +17,10 @@ package net.burrito.levels
 	 */
 	public class WaveLevel extends Level
 	{
-		public static var testLev:Boss1 = new Boss1(1);
-		public static var lev1:WaveLevel = new WaveLevel("endless", 3, 0, Assets.BG_DARK);
+		public static var lev1Boss:Boss1 = new Boss1(1);
+		public static var lev1:WaveLevel = new WaveLevel("endless", 2, 0, Assets.BG_DARK);
 		public static var lev2:WaveLevel = new WaveLevel("endless", 4, 2, Assets.BG_LIGHT);
-		public static var lev3:WaveLevel = new WaveLevel("endless", 5, 3, Assets.BG_DARK);
+		public static var lev3:WaveLevel = new WaveLevel("endless", 5, 4, Assets.BG_DARK);
 		
 		public var collide:Vector.<Boolean> = new Vector.<Boolean>;
 		public var mode:String;
@@ -43,13 +39,11 @@ package net.burrito.levels
 			this.mode = mode;
 			this.difficulty = difficulty;
 			this.bg = bg;
-			
 			super(id);
-			
-			load();
+			bitmapData = bg;
 		}
 		
-		public function load():void {
+		override public function load():void {
 			if (difficulty == 1) {
 				spawnRate = 3;
 			}
@@ -70,7 +64,8 @@ package net.burrito.levels
 				spawnRate = 900;
 			}
 			
-			
+			waveNum = 0;
+			timer = 0;
 		}
 		
 		public function nextWave(wait:int, amt:int):void {
@@ -100,24 +95,19 @@ package net.burrito.levels
 		}
 		
 		override public function tick():void {
+			for each(var m:Mob in enemies)
+			{
+				m.tick();
+			}
+			
 			if(done == 0){
 				nextWave(1, spawnRate);
-			}else if (done == 1){
-				done = 2
+			}else if (done == 1) {
+				if (enemies.length == 0)
+					done = 2;
 			}
 			
-			for (var m:int = 0; m < enemies.length; m++ ) {
-				enemies.reverse();
-				var mm:Mob = enemies.pop();
-				enemies.reverse();
-				if (mm.alive)
-					enemies.push(mm);
-				
-			}
-			
-			for (var i:int = 0; i < enemies.length; i++) {
-				enemies[i].tick();
-			}
+			super.tick();
 		}
 		
 		

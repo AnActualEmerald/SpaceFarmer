@@ -15,7 +15,7 @@ package net.burrito.levels
 		public var id:int;
 		public var done:int = 0;
 		public var enemies:Vector.<Mob> = new Vector.<Mob>;
-		public var bitmapData:BitmapData = new BitmapData(8155, 1000);
+		public var bitmapData:BitmapData = new BitmapData(800, 600);
 		public var point:Point;
 		public var LevX:int = 0;
 		public var player:Player;
@@ -27,8 +27,15 @@ package net.burrito.levels
 		}
 		
 		public function tick():void
-		{
-			
+		{			
+			for (var m:int = 0; m < enemies.length; m++ ) {
+				enemies.reverse();
+				var mm:Mob = enemies.pop();
+				enemies.reverse();
+				if (mm.alive)
+					enemies.push(mm);
+				
+			}
 		}
 		
 		public function render(screen:BitmapData):void
@@ -44,6 +51,10 @@ package net.burrito.levels
         
 		public function addMob(e:Mob):void {
 			enemies.push(e);
+		}
+		
+		public function load():void {
+			
 		}
 		
 	}

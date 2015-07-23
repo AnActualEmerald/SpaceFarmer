@@ -1,6 +1,8 @@
 package net.burrito.levels 
 {
 	import adobe.utils.CustomActions;
+	import flash.display.BitmapData;
+	import flash.text.AntiAliasType;
 	import net.burrito.entities.Attack;
 	import net.burrito.entities.mobs.Boss;
 	import net.burrito.Utils.Animation;
@@ -22,7 +24,14 @@ package net.burrito.levels
 		
 		override public function tick():void 
 		{
-			boss.tick();
+			for (var i:int = 0; i < enemies.length; i++) {
+				enemies[i].tick();
+			}
+			
+			super.tick();
+			
+			if (!boss.alive)
+				done = 2;
 		}
 		
 		protected function initBoss(hp:int, timing:int, x:int, y:int):void {

@@ -19,6 +19,8 @@ package net.burrito.entities.mobs
 		
 		override public function tick():void {
 			move();
+			if (point.x < 0 - sprite.width)
+				this.alive = false;
 		}
 		
 		override public function move():void {
