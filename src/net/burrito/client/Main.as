@@ -3,6 +3,7 @@ package net.burrito.client
 	import adobe.utils.ProductManager;
 	import flash.display.Bitmap;
 	import flash.display.DisplayObject;
+	import flash.display.Loader;
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.display.BitmapData
@@ -10,13 +11,16 @@ package net.burrito.client
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.display.StageDisplayState;
+	import flash.events.IOErrorEvent;
 	import flash.events.KeyboardEvent
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.events.ProgressEvent;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
+	import flash.net.URLRequest;
 	import flash.text.*;
 	import flash.net.FileReference;
 	import net.burrito.client.GUI.GUI;
@@ -59,11 +63,40 @@ package net.burrito.client
 		private var music:Sound = Assets.BACKING;
 		private var muteButton:SimpleButton;
 		private var chan:SoundChannel;
+		private var loader:Loader;
 		
 		public static var levels:Vector.<Level> = new Vector.<Level>;
 		
+		private function loading(e:Event):void
+		{
+			addChild(new Bitmap(Assets.GRASS_TILE));
+		}
+		
+		private function doneFunc(e:Event):void {
+			addChild(new Bitmap(Assets.WATER_TILE));
+		}
+		
+		private function erp(e:Event):void {
+			addChild(new Bitmap(Assets.OVER_SCREEN));
+		}
+		
 		public function Main()
 		{
+			trace("beginning load");
+			loader = new Loader();
+			addChild(loader);
+			loader.contentLoaderInfo.addEventListener(ProgressEvent.PROGRESS, loading);
+			loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, erp);
+			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, doneFunc);
+			loader.load(new URLRequest("https://github.com/Burrito119/SpaceFarmer/tree/master/assets/tekkit.png"));
+			addChild(loader.content);
+			
+			
+			
+			
+			
+			
+			
 			lev = WaveLevel.lev1;
 			me = new Player(spawnX, spawnY, Assets.PLAYER_BIT);
 			
