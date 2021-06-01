@@ -1,0 +1,28 @@
+{
+  "name": "spacefarmer",
+  "version": "0.0.1",
+  "description": "A little flash game I made in highschool, thought i'd continue working on it. Obviously needs to be rewritten in HTML5, so I'll be learing as I go.",
+  "main": "index.js",
+  "dependencies": {
+    "change-case": "^4.1.2"
+  },
+  "devDependencies": {
+    "snowpack": "^3.5.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "snowpack dev",
+    "build": "snowback build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnActualEmerald/spacefarmer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AnActualEmerald/spacefarmer/issues"
+  },
+  "homepage": "https://github.com/AnActualEmerald/spacefarmer#readme"
+}
