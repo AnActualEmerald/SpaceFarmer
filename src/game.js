@@ -1,25 +1,19 @@
-export class Player extends Mob {
-    constructor(startX, startY, sprite) {
-        this.x = startX;
-        this.y = startY;
-        this.velX = 0;
-        this.velY = 0;
-        this.sprite = sprite;
-    }
+import {Level} from './level';
+import {Player, Mob} from './mobs';
+import {Canvas} from './utils';
 
-    update() {
-        this.x += this.velX;
-        this.y += this.velY;
-    }
+const c = new Canvas();
 
-    draw(ctx){
-        ctx.drawImage(this.sprite, this.x, this.y);
-    }
+let levels = {};
+let currentLevel;
+
+export function update() {
+    currentLevel.update();
+    currentLevel.draw(c);
 }
 
-export class Mob {
-    constructor(x, y){
-        this.x = x;
-        this.y = y;
-    }
+export function init() {
+    currentLevel = new Level(1, 100, c.height / 2);
+    levels[currentLevel.id] = currentLevel;
+    
 }
