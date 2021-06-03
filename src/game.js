@@ -9,11 +9,14 @@ let currentLevel;
 
 export function update() {
     currentLevel.update();
+}
+
+export function draw() {
+    c.clear();
     currentLevel.draw(c);
 }
 
 export function init() {
-    currentLevel = new Level(1, 100, c.height / 2);
+    currentLevel = new Level(1, 100, c.height / 2, c.width, c.height);
     levels[currentLevel.id] = currentLevel;
-    
 }

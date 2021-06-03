@@ -4,7 +4,7 @@ export class Canvas {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         this.context = canvas.getContext("2d");
-        // this.context.fillStyle = "black";
+        this.bg = 'black';
         this.width = canvas.width;
         this.height = canvas.height;
     }
@@ -25,5 +25,14 @@ export class Canvas {
 
     setFillStyle(style) {
         this.context.fillStyle = style;
+    }
+
+    setBackground(color) {
+        this.bg = color;
+    }
+
+    clear() {
+        this.setFillStyle(this.bg);
+        this.context.fillRect(0, 0, this.width, this.height);
     }
 }

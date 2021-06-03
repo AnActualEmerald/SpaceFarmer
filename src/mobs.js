@@ -18,10 +18,13 @@ export class Player {
 }
 
 export class Mob {
-    constructor(x, y, sprite){
+    constructor(x, y, speed, sprite){
         this.x = x;
         this.y = y;
-        this.move = () => console.log(`Current x ${x}\nCurrent y ${y}`);
+        this.speed;
+        this.move = () => {
+            this.x -= speed;
+        };
         this.sprite = sprite;
     }
 
@@ -30,6 +33,7 @@ export class Mob {
     }
 
     draw(ctx) {
-        ctx.drawImage(this.sprite, this.x, this.y);
+        ctx.setFillStyle(this.sprite);
+        ctx.drawCircle(this.x, this.y, 20);
     }
 }

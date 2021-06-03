@@ -1,16 +1,15 @@
-import {Canvas} from './utils';
-import img_ref from './assets/tekkit.png';
+import {update, draw, init} from './game';
 
-var image = new Image();
-image.src = img_ref;
+init();
 
-let c = new Canvas();
-
-if (image.complete) {
-    c.drawImage(image, 0, 0);
-}else{
-    image.onload = () => {
-        c.drawImage(image, 0, 0);
-    }
+//rendering loop
+function drawGame() {
+    requestAnimationFrame(drawGame);
+    draw();
 }
 
+//update the game 60 times a second
+setInterval(update, 16.666666667);
+
+//draw the game as fast as the browser will allow
+requestAnimationFrame(drawGame);
